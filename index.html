@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Profile Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-copy-block">
+        <p class="eyebrow">GitHub Profile Intelligence</p>
+        <h1>Analyze developer profiles with cleaner signals and stronger UI.</h1>
+        <p class="hero-copy">
+          Search any public GitHub account to inspect impact, languages, repositories, activity.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <div class="hero-stats">
+          <div>
+            <span>Fast mode</span>
+            <strong>Progressive load</strong>
+          </div>
+          <div>
+            <span>UI target</span>
+            <strong>Industry-level</strong>
+          </div>
+        </div>
+        <button id="themeToggle" class="ghost-button" type="button" aria-label="Toggle theme">Dark mode</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="panel search-panel">
+        <div class="search-row">
+          <label class="search-input">
+            <span class="sr-only">GitHub username</span>
+            <input type="text" id="username" placeholder="Enter GitHub username" autocomplete="off">
+          </label>
+          <button id="analyzeButton" type="button">Analyze Profile</button>
+        </div>
+        <div class="search-actions">
+          <button id="loadDemoButton" class="secondary-button" type="button">Load Demo</button>
+          <button id="shareProfileButton" class="secondary-button" type="button">Copy Profile Link</button>
+        </div>
+        <p id="statusMessage" class="status-message" aria-live="polite"></p>
+      </section>
+
+      <section id="loadingSection" class="loading-grid hidden" aria-hidden="true">
+        <article class="panel skeleton-card skeleton-profile"></article>
+        <article class="panel skeleton-card skeleton-side"></article>
+        <article class="panel skeleton-card skeleton-metric"></article>
+        <article class="panel skeleton-card skeleton-metric"></article>
+        <article class="panel skeleton-card skeleton-metric"></article>
+        <article class="panel skeleton-card skeleton-metric"></article>
+      </section>
+
+      <section id="overviewSection" class="overview-grid hidden">
+        <article class="panel profile-panel">
+          <div class="profile-card">
+            <img id="avatar" alt="GitHub avatar">
+            <div class="profile-info">
+              <div class="profile-heading">
+                <div>
+                  <h2 id="name">Developer Name</h2>
+                  <p id="login" class="muted">@username</p>
+                </div>
+                <span id="profileType" class="pill">Profile</span>
+              </div>
+              <p id="bio" class="profile-bio"></p>
+              <div id="profileMeta" class="meta-list"></div>
+              <div class="profile-stats">
+                <div><span>Followers</span><strong id="followers">0</strong></div>
+                <div><span>Following</span><strong id="following">0</strong></div>
+                <div><span>Repos</span><strong id="publicRepos">0</strong></div>
+                <div><span>Score</span><strong id="developerScore">0</strong></div>
+              </div>
+              <div class="profile-links">
+                <a id="profileLink" class="primary-link" href="#" target="_blank" rel="noreferrer">Open GitHub</a>
+                <a id="blogLink" class="secondary-link hidden" href="#" target="_blank" rel="noreferrer">Website</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel insight-panel">
+          <div class="section-heading">
+            <h2>Quick insights</h2>
+            <span class="muted">Computed from public profile and repository data</span>
+          </div>
+          <div id="insightChips" class="insight-chips"></div>
+          <div id="summaryCards" class="summary-cards"></div>
+        </article>
+      </section>
+
+      <section id="metricsSection" class="metrics hidden">
+        <article class="metric-card panel">
+          <p>Total Stars</p>
+          <h3 id="totalStars">0</h3>
+        </article>
+        <article class="metric-card panel">
+          <p>Total Forks</p>
+          <h3 id="totalForks">0</h3>
+        </article>
+        <article class="metric-card panel">
+          <p>Total Watchers</p>
+          <h3 id="totalWatchers">0</h3>
+        </article>
+        <article class="metric-card panel">
+          <p>Main Languages</p>
+          <h3 id="mainLanguages">N/A</h3>
+        </article>
+      </section>
+
+      <section id="analysisSection" class="content-grid hidden">
+        <article class="panel chart-panel">
+          <div class="section-heading">
+            <h2>Language distribution</h2>
+            <span class="muted">Top repository language mix</span>
+          </div>
+          <canvas id="languageChart"></canvas>
+        </article>
+
+        <article class="panel activity-panel">
+          <div class="section-heading">
+            <h2>Recent activity</h2>
+            <span class="muted">Latest public events</span>
+          </div>
+          <div id="activityList" class="activity-list"></div>
+        </article>
+      </section>
+
+      <section id="repoSection" class="panel hidden">
+        <div class="section-heading repo-header">
+          <div>
+            <h2>Repository explorer</h2>
+            <span class="muted">Search, filter, and sort public repositories</span>
+          </div>
+          <p id="repoCount" class="muted">0 repositories</p>
+        </div>
+        <div class="repo-toolbar">
+          <input type="text" id="repoSearch" placeholder="Search repositories">
+          <select id="languageFilter">
+            <option value="all">All languages</option>
+          </select>
+          <select id="sortSelect">
+            <option value="stars">Sort by stars</option>
+            <option value="updated">Sort by recently updated</option>
+            <option value="forks">Sort by forks</option>
+            <option value="name">Sort by name</option>
+          </select>
+        </div>
+        <div id="repoContainer" class="repo-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
