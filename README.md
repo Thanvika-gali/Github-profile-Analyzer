@@ -107,11 +107,6 @@ Through this project, I learned:
 
 ---
 
-## 📸 Screenshots
-
-<img width="1877" height="849" alt="GitHub Profile Intelligence UI" src="https://github.com/user-attachments/assets/1efdeaaa-2a75-4e2e-ad99-10cfa6ebca68" />
----
-
 ## 🔮 Future Improvements
 
 * Add contribution graph
