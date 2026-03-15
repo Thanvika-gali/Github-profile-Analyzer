@@ -53,9 +53,6 @@ GitHub-Profile-Analyzer
 ├── index.html
 ├── style.css
 ├── script.js
-├── assets
-│   └── images
-│       └── project.png
 └── README.md
 ```
 
