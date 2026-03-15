@@ -8,7 +8,7 @@ This project demonstrates the use of **REST APIs, asynchronous JavaScript, and r
 
 ## 🚀 Live Demo
 
-(https://github-profile-analyzer-gold.vercel.app/?user=Thanvika-gali)
+(https://github-profile-analyzer-gold.vercel.app/)
 
 ---
 
